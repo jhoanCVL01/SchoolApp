@@ -1,0 +1,18 @@
+table {
+    font-size: small;
+}
+
+.md-autocomplete-suggestions-container {
+    z-index: 1000000 !important;
+}
+
+.cdk-overlay-container {
+    position: fixed;
+    z-index: 999999 !important;
+}
+.table td {
+    padding: 0%;
+    padding-left: 10px;
+    padding-top: 10px;
+
+}

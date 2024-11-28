@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/47018ceb-b463-4a79-a935-309540504f0b/resourceGroups/tests/providers/Microsoft.Web/sites/IfxAngularAPP",
+    "appService.deploySubpath": "dist\\ifxapp"
+}

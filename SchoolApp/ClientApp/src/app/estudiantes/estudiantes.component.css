@@ -1,0 +1,10 @@
+table {
+    font-size: small;
+}
+
+.table td {
+    padding: 0%;
+    padding-left: 10px;
+    padding-top: 10px;
+
+}

@@ -1,0 +1,80 @@
+<div *ngIf="!authed">
+    <form (ngSubmit)="login()" #formulario="ngForm" ngNativeValidate>
+        <main class="main" id="top">
+            <div class="container-fluid bg-body-tertiary dark__bg-gray-1200">
+                <div class="bg-holder bg-auth-card-overlay" style="background-image:url(../assets/img/bg/37.png);">
+                </div>
+                <!--/.bg-holder-->
+                <div class="row flex-center position-relative min-vh-100 g-0 py-5">
+                    <div class="col-11 col-sm-10 col-xl-8">
+                        <div class="card border border-translucent auth-card">
+                            <div class="card-body pe-md-0">
+                                <div class="row align-items-center gx-0 gy-7">
+                                    <div
+                                        class="col-auto bg-body-highlight dark__bg-gray-1100 rounded-3 position-relative overflow-hidden auth-title-box">
+                                        <div class="bg-holder" style="background-image:url(../assets/img/bg/38.png);">
+                                        </div>
+                                        <!--/.bg-holder-->
+                                        <div
+                                            class="position-relative px-4 px-lg-7 pt-7 pb-7 pb-sm-5 text-center text-md-start pb-lg-7 pb-md-7">
+                                        </div>
+                                        <div class="position-relative z-n1 mb-6 d-none d-md-block text-center mt-md-15">
+                                            <img class="auth-title-box-img d-dark-none"
+                                                src="../assets/img/spot-illustrations/auth.png" alt="" /><img
+                                                class="auth-title-box-img d-light-none"
+                                                src="../assets/img/spot-illustrations/auth-dark.png" alt="" />
+                                        </div>
+                                    </div>
+                                    <div class="col mx-auto">
+                                        <div class="auth-form-box">
+                                            <div class="text-center mb-7">
+                                                <a class="d-flex flex-center text-decoration-none mb-4"
+                                                    href="../index.html">
+                                                    <div
+                                                        class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+                                                    </div>
+                                                </a>
+                                                <h3 class="text-body-highlight">Iniciar Sesion</h3>
+                                                <p class="text-body-tertiary">Accede a tu cuenta</p>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <div *ngIf="mensajesError.length > 0" class="alert alert-danger fs-9 "
+                                                    role="alert">
+                                                    <li *ngFor="let error of mensajesError">
+                                                        <span>{{ error }}</span>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label class="form-label" for="email">Usuario</label>
+                                                <div class="form-icon-container">
+                                                    <input class="form-control form-icon-input"
+                                                        [(ngModel)]="credentials.username" name="username" required />
+                                                    <span class="fas fa-user text-body fs-9 form-icon"></span>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 text-start">
+                                                <label class="form-label" for="password">Contraseña</label>
+                                                <div class="form-icon-container" data-password="data-password">
+                                                    <input class="form-control form-icon-input pe-6" id="password"
+                                                        type="password" placeholder="Password"
+                                                        data-password-input="data-password-input"
+                                                        [(ngModel)]="credentials.password" name="password" required />
+                                                    <span class="fas fa-key text-body fs-9 form-icon"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="row flex-between-center mb-7">
+                                            </div><button class="btn btn-primary w-100 mb-3" type="submit">Iniciar
+                                                Sesion</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </form>
+</div>

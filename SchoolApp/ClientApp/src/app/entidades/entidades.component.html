@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="modal fade" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form (ngSubmit)="isEditing ? actualizarEntidad() : crearEntidad()" ngNativeValidate>
+          <div class="modal-header justify-content-between bg-primary">
+            <h5 class="modal-title text-white dark__text-gray-1100" id="staticBackdropLabel">Gestión de Entidades</h5>
+            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span
+                class="fas fa-times fs-9 text-white dark__text-gray-1100"></span></button>
+          </div>
+          <div class="modal-body">
+            <div  class="row g-3">
+              <div class="col-md-4">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input class="form-control" type="text" id="nombre" [(ngModel)]="entidadSeleccionada.nombre"
+                  name="nombre" required>
+              </div>
+              <div class="col-md-4">
+                <label for="nit">NIT:</label>
+                <input class="form-control" type="text" id="nit" [(ngModel)]="entidadSeleccionada.nit" name="nit"
+                  required>
+              </div>
+              <div class="col-md-4">
+                <label for="direccion">Dirección:</label>
+                <input class="form-control" type="text" id="direccion" [(ngModel)]="entidadSeleccionada.direccion"
+                  name="direccion">
+              </div>
+              <div class="col-md-4">
+                <label for="ciudad">Ciudad:</label>
+                <input class="form-control" type="text" id="ciudad" [(ngModel)]="entidadSeleccionada.ciudad"
+                  name="ciudad" required>
+              </div>
+              <div class="col-md-4">
+                <label for="telefono">Teléfono:</label>
+                <input class="form-control" type="text" id="telefono" [(ngModel)]="entidadSeleccionada.telefono"
+                  name="telefono" required>
+              </div>
+              <div class="col-md-4">
+                <label for="correo">Correo:</label>
+                <input class="form-control" type="email" id="correo" [(ngModel)]="entidadSeleccionada.correo"
+                  name="correo" required>
+              </div>
+              <div class="col-md-4">
+                <input class="form-check-input" type="checkbox" id="estado" [(ngModel)]="entidadSeleccionada.estado"
+                  name="estado">
+                <label class="form-check-label" for="estado">Estado</label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+            <button class="btn btn-phoenix-secondary" type="button" data-bs-dismiss="modal"
+              (click)="limpiarSeleccion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <h2></h2>
+
+  <!-- Formulario de Entidad -->
+
+  <!-- Lista de Entidades -->
+  <div class="container mt-4">
+    <h2>Lista de Entidades</h2>
+    <input type="text" class="form-control mb-3" placeholder="Buscar..." [(ngModel)]="filtro" />
+    <div class="col-12">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        (click)="limpiarSeleccion()">Nuevo</button>
+    </div>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>NIT</th>
+          <th>Dirección</th>
+          <th>Ciudad</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
+          <th style="width: 125px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entidad of entidadesFiltradas() | paginate: { itemsPerPage: 5, currentPage: page }">
+          <td>{{ entidad.nombre }}</td>
+          <td>{{ entidad.nit }}</td>
+          <td>{{ entidad.direccion }}</td>
+          <td>{{ entidad.ciudad }}</td>
+          <td>{{ entidad.telefono }}</td>
+          <td>{{ entidad.correo }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="eliminarEntidad(entidad.id)">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="seleccionarEntidad(entidad)">
+              <i class="fas fa-edit"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>

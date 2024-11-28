@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="modal fade" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form (ngSubmit)="isEditing ? actualizarEmpleado() : crearEmpleado()" ngNativeValidate>
+          <div class="modal-header justify-content-between bg-primary">
+            <h5 class="modal-title text-white dark__text-gray-1100" id="staticBackdropLabel">Gestión de Entidades</h5>
+            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span
+                class="fas fa-times fs-9 text-white dark__text-gray-1100"></span></button>
+          </div>
+          <div class="modal-body">
+            <div  class="row g-3">
+              <div class="col-md-4">
+                <label for="nombres">Nombres:</label>
+                <input type="text"class="form-control" id="nombres" [(ngModel)]="empleadoSeleccionado.nombres" name="nombres" required>
+              </div>
+              <div class="col-md-4">
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" class="form-control" id="apellidos" [(ngModel)]="empleadoSeleccionado.apellidos" name="apellidos" required>
+              </div>
+              <div class="col-md-4">
+                <label for="numeroIdentificacion">Número de Identificación:</label>
+                <input type="text" class="form-control" id="numeroIdentificacion" [(ngModel)]="empleadoSeleccionado.numeroIdentificacion" name="numeroIdentificacion" required>
+              </div>
+              <div class="col-md-4">
+                <label for="direccion">Dirección:</label>
+                <input type="text" class="form-control" id="direccion" [(ngModel)]="empleadoSeleccionado.direccion" name="direccion">
+              </div>
+              <div class="col-md-4">
+                <label for="ciudad">Ciudad:</label>
+                <input type="text" class="form-control" id="ciudad" [(ngModel)]="empleadoSeleccionado.ciudad" name="ciudad">
+              </div>
+              <div class="col-md-4">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" class="form-control" id="telefono" [(ngModel)]="empleadoSeleccionado.telefono" name="telefono">
+              </div>
+              <div class="col-md-4">
+                <label for="celular">Celular:</label>
+                <input type="text" class="form-control" id="celular" [(ngModel)]="empleadoSeleccionado.celular" name="celular">
+              </div>
+              <div class="col-md-4">
+                <label for="correo">Correo:</label>
+                <input type="email" class="form-control" id="correo" [(ngModel)]="empleadoSeleccionado.correo" name="correo">
+              </div>
+              <div class="col-md-4">
+                <label for="fechaVinculacion">Fecha de Vinculación:</label>
+                <input type="date" class="form-control" id="fechaVinculacion" [(ngModel)]="empleadoSeleccionado.fechaVinculacion" name="fechaVinculacion">
+              </div>
+              <div class="col-md-4">
+                <label for="cargo">Cargo:</label>
+                <input type="text" class="form-control" id="cargo" [(ngModel)]="empleadoSeleccionado.cargo" name="cargo">
+              </div>
+              <div  class="col-md-4">
+                <label for="idEmpresa">Empresa:</label>
+                <select id="idEmpresa" class="form-control" [(ngModel)]="empleadoSeleccionado.idEmpresa" name="idEmpresa" required>
+                    <option *ngFor="let entidad of entidades" [value]="entidad.id">
+                      {{ entidad.nombre }}
+                    </option>
+                  </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+            <button class="btn btn-phoenix-secondary" type="button" data-bs-dismiss="modal"
+              (click)="limpiarSeleccion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <div class="container mt-4">
+      <h2>Lista de Empleados</h2>
+      
+      <!-- Campo de búsqueda -->
+      <input type="text" class="form-control mb-3" placeholder="Buscar..." [(ngModel)]="filtro" />
+      
+      <!-- Botón para agregar nuevo empleado -->
+      <div class="col-12 mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="limpiarSeleccion()">Nuevo</button>
+      </div>
+      
+      <!-- Tabla de Empleados -->
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Número de Identificación</th>
+            <th>Dirección</th>
+            <th>Ciudad</th>
+            <th>Teléfono</th>
+            <th>Celular</th>
+            <th>Correo</th>
+            <th>Fecha Vinculación</th>
+            <th>Cargo</th>
+            <th>Empresa</th>
+            <th style="width: 125px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empleado of empleadosFiltrados() | paginate: { itemsPerPage: 5, currentPage: page }">
+            <td>{{ empleado.nombres }}</td>
+            <td>{{ empleado.apellidos }}</td>
+            <td>{{ empleado.numeroIdentificacion }}</td>
+            <td>{{ empleado.direccion }}</td>
+            <td>{{ empleado.ciudad }}</td>
+            <td>{{ empleado.telefono }}</td>
+            <td>{{ empleado.celular }}</td>
+            <td>{{ empleado.correo }}</td>
+            <td>{{ empleado.fechaVinculacion | date:'dd/MM/yyyy' }}</td>
+            <td>{{ empleado.cargo }}</td>
+            <td>{{ empleado.empresa?.nombre }}</td>
+            <td>
+              <!-- Botón para eliminar empleado -->
+             
+              <!-- Botón para editar empleado -->
+              <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="seleccionarEmpleado(empleado)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="eliminarEmpleado(empleado.id)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <!-- Paginación -->
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>

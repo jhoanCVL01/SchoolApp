@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="modal fade" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static" #staticBackdrop
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form (ngSubmit)="isEditing ? actualizarEntidad() : crearEntidad()" ngNativeValidate>
+          <div class="modal-header justify-content-between bg-primary">
+            <h5 class="modal-title text-white dark__text-gray-1100" id="staticBackdropLabel">Gestión de Programas Academicos</h5>
+            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close" id="btnclosemodal"><span
+                class="fas fa-times fs-9 text-white dark__text-gray-1100"></span></button>
+          </div>
+          <div class="modal-body">
+            <div  class="row g-3">
+              <div class="col-md-4">
+                <label for="nombres">Nombre:</label>
+                <input type="text"class="form-control" id="nombres" [(ngModel)]="entidadSeleccionada.nombre" name="nombre" required>
+              </div>
+              <div class="col-md-12">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" id="descripcion" [(ngModel)]="entidadSeleccionada.descripcion" name="descripcion" required></textarea>
+              </div>
+              <div class="col-md-4">
+                <input class="form-check-input" type="checkbox" id="estado" [(ngModel)]="entidadSeleccionada.estado"
+                  name="estado">
+                <label class="form-check-label" for="estado">Estado</label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit" >{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+            <button class="btn btn-phoenix-secondary" type="button" data-bs-dismiss="modal"
+              (click)="limpiarSeleccion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <h2></h2>
+
+  <!-- Formulario de Entidad -->
+
+  <!-- Lista de Entidades -->
+  <div class="container mt-4">
+    <h2>Lista de Programas Academicos</h2>
+    <input type="text" class="form-control mb-3" placeholder="Buscar..." [(ngModel)]="filtro" />
+    <div class="col-12">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        (click)="limpiarSeleccion()">Nuevo</button>
+    </div>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Nombres</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th style="width: 125px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entidad of entidadesFiltradas() | paginate: { itemsPerPage: 5, currentPage: page }">
+          <td>{{ entidad.nombre }}</td>
+          <td>{{ entidad.descripcion }}</td>
+          <td>
+            <label *ngIf="entidad.estado" class="badge text-bg-success">Activo</label> 
+            <label *ngIf="!entidad.estado" class="badge text-bg-warning">Inactivo</label> 
+          </td>
+          <td>
+           
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="seleccionarEntidad(entidad)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="eliminarEntidad(entidad.id)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>

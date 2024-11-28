@@ -1,0 +1,201 @@
+<div class="container">
+  <div class="modal fade" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static" #staticBackdrop
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form (ngSubmit)="crearEntidad()" ngNativeValidate>
+          <div class="modal-header justify-content-between bg-primary">
+            <h5 class="modal-title text-white dark__text-gray-1100" id="staticBackdropLabel">Inscripcion de Materia</h5>
+            <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close" id="btnclosemodal"><span
+                class="fas fa-times fs-9 text-white dark__text-gray-1100"></span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="mb-3 text-start">
+                <div *ngIf="mensajesError.length > 0" class="alert alert-danger fs-9 " role="alert">
+                  <li *ngFor="let error of mensajesError">
+                    <span>{{ error }}</span>
+                  </li>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="mombre">Estudiante:</label>
+                <input name="estudiante" id="estudiante" type="text" class="form-control col"
+                  [(ngModel)]="RegistroEstudiantil.estudiante" [ngbTypeahead]="searchst" [inputFormatter]="formatterst"
+                  [resultFormatter]="formatterst" [selectOnExact]="true" [disabled]="rolStudent"
+                  (blur)="RegistroEstudiantil.estudiante = ValA(RegistroEstudiantil.estudiante);RegistroEstudiantil.asignatura = undefined"
+                  required="" />
+              </div>
+              <div class="col-md-8">
+                <label for="descripcion">Programa:</label>
+                <input type="text" class="form-control" id="descripcion"
+                  value="{{RegistroEstudiantil.estudiante?.programaAcademico?.nombre}}" name="descripcion" disabled>
+              </div>
+              <div class="col-md-4">
+                <label for="cicloEstudiantil">Ciclo Estudiantil:</label>
+                <select id="cicloEstudiantil" class="form-select" [(ngModel)]="RegistroEstudiantil.idCicloEstudiantil"
+                  name="cicloEstudiantil" required>
+                  <option *ngFor="let entidad of Ciclos" [value]="entidad.id">
+                    {{ entidad.nombre }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="asignatura">Asignatura:</label>
+                <input name="asignatura" id="asignatura" type="text" class="form-control col"
+                  [(ngModel)]="RegistroEstudiantil.asignatura" [ngbTypeahead]="searchcl" [inputFormatter]="formattercl"
+                  [resultFormatter]="formattercl" [selectOnExact]="true"
+                  (blur)="RegistroEstudiantil.asignatura = ValA(RegistroEstudiantil.asignatura)" required="" />
+              </div>
+              <div class="col-md-4">
+                <label for="creditosMaximos">Profesor:</label>
+                <input type="text" class="form-control" id="descripcion"
+                  value="{{RegistroEstudiantil.asignatura?.profesor?.nombres}}" name="descripcion" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+            <button class="btn btn-phoenix-secondary" type="button" data-bs-dismiss="modal"
+              (click)="limpiarSeleccion()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="ModalVisualizacionRegistros" tabindex="-1" data-bs-backdrop="static"
+    #ModalVisualizacionRegistros aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header justify-content-between bg-primary">
+          <h5 class="modal-title text-white dark__text-gray-1100" id="staticBackdropLabel">Gestion de Inscripciones
+            {{modaltittle}}
+          </h5>
+          <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close" id="btnclosemodal"><span
+              class="fas fa-times fs-9 text-white dark__text-gray-1100"></span></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <h2 *ngIf="rolStudent">Mis Inscripciones</h2>
+              <h2 *ngIf="rolTeacher">Estudiantes Inscritos</h2>
+              <h2 *ngIf="rolAdmin">Inscripciones</h2>
+              <input type="text" class="form-control mb-3" placeholder="Buscar..." [(ngModel)]="filtrorg" />
+              <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Estudiante</th>
+                    <th>Programa</th>
+                    <th>Asignatura</th>
+                    <th>Profesor</th>
+                    <th style="width: 70px;" *ngIf="rolAdmin || rolStudent"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let entidad of RegistrosFiltradas() | paginate: { itemsPerPage: 5, currentPage: pagerg }">
+                    <td>{{ entidad.estudiante?.nombres }}</td>
+                    <td>{{ entidad.estudiante?.programaAcademico?.nombre }}</td>
+                    <td>{{ entidad.asignatura?.nombre }}</td>
+                    <td>{{ entidad.asignatura?.profesor?.nombres }}</td>
+
+                    <td *ngIf="rolAdmin || rolStudent">
+                      <button class="btn btn-danger btn-sm" (click)="eliminarEntidad(entidad.id)" *ngIf="rolAdmin">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="eliminarEntidad(entidad.id)"
+                        *ngIf="rolStudent && entidad.estudiante?.id == Idestudiante">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="pagerg = $event"></pagination-controls>
+
+            </div>
+            <div class="col-md-12" *ngIf="rolStudent">
+              <h2 *ngIf="rolStudent">Asignaturas</h2>
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item" *ngFor="let entidad of consultaCiclos">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#flush-' + entidad.id" aria-expanded="false"
+                      [attr.aria-controls]="'flush-' + entidad.id">
+                      {{ entidad.asignatura?.nombre }}
+                    </button>
+                  </h2>
+                  <div id="flush-{{entidad.id.toString()}}" class="accordion-collapse collapse"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                      <!--Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.-->
+                      <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th>Estudiante</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let estudiantes of EstudaintesFiltradas(entidad.asignatura?.id)">
+                            <td>{{ estudiantes.estudiante?.nombres }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-phoenix-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2></h2>
+
+  <!-- Formulario de Entidad -->
+
+  <!-- Lista de Entidades -->
+  <div class="container mt-4">
+    <h2>Inscripciones</h2>
+    <input type="text" class="form-control mb-3" placeholder="Buscar..." [(ngModel)]="filtro" />
+    <div class="col-12" *ngIf="rolAdmin || rolStudent">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        (click)="limpiarSeleccion()">Inscribir Asignatura</button>
+    </div>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th style="width: 70px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entidad of entidadesFiltradas()">
+          <td>{{ entidad.nombre }}</td>
+          <td>{{ entidad.descripcion }}</td>
+          <td>{{ entidad.fechaInicio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ entidad.fechaFin | date:'dd/MM/yyyy'}}</td>
+          <td>
+            <label *ngIf="entidad.estado" class="badge text-bg-success">Activo</label>
+            <label *ngIf="!entidad.estado" class="badge text-bg-warning">Inactivo</label>
+          </td>
+          <td>
+
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalVisualizacionRegistros"
+              (click)="ConsultarRegistros(entidad)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Paginación -->
+  </div>
+</div>

@@ -1,0 +1,196 @@
+<div *ngIf="isAuthenticated">
+    <main class="main" id="top">
+        <!--Menu Lateral-->
+        <nav class="navbar navbar-vertical navbar-expand-lg" style="display:none;">
+            <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+                <!-- scrollbar removed-->
+                <div class="navbar-vertical-content">
+                    <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+
+                        <li class="nav-item">
+                            <!-- label-->
+                            <p class="navbar-vertical-label">Modulos</p>
+                            <hr class="navbar-vertical-line" /><!-- parent pages-->
+                            <!-- <div class="nav-item-wrapper">
+                                <a class="nav-link label-1" routerLink="/entidades" role="button" data-bs-toggle=""
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                data-feather="compass"></span></span><span
+                                            class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Entidades</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper">
+                                <a class="nav-link label-1" routerLink="/empleados" role="button" data-bs-toggle=""
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                data-feather="compass"></span></span><span
+                                            class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Empleados</span></span>
+                                    </div>
+                                </a>
+                            </div>-->
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin">
+                                <a class="nav-link label-1" routerLink="/programaacademico" role="button"
+                                    data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-graduation-cap"></i></span><span
+                                            class="nav-link-text-wrapper"><span class="nav-link-text">Programa
+                                                Academico</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin">
+                                <a class="nav-link label-1" routerLink="/estudiantes" role="button" data-bs-toggle=""
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-person"></i></span><span
+                                            class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Estudiantes</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin">
+                                <a class="nav-link label-1" routerLink="/profesores" role="button" data-bs-toggle=""
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-chalkboard-user"></i></span><span
+                                            class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Profesores</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin || rolTeacher">
+                                <a class="nav-link label-1" routerLink="/asignaturas" role="button" data-bs-toggle=""
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-pen-nib"></i>
+                                        </span><span class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Asignaturas</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin">
+                                <a class="nav-link label-1" routerLink="/cicloestudiantil" role="button"
+                                    data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-school-circle-check"></i>
+                                        </span><span class="nav-link-text-wrapper"><span class="nav-link-text">Ciclo
+                                                Estudiantil</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin || rolTeacher  || rolStudent">
+                                <a class="nav-link label-1" routerLink="/registroestudiantil" role="button"
+                                    data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </span><span class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Inscripciones</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="nav-item-wrapper" *ngIf="rolAdmin">
+                                <a class="nav-link label-1" routerLink="/usuarios" role="button" data-bs-toggle=""
+                                    aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon">
+                                            <i class="fa-solid fa-circle-user"></i></span>
+                                        <span class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Usuarios</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-vertical-footer"><button
+                    class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center"><span
+                        class="uil uil-left-arrow-to-left fs-8"></span><span
+                        class="uil uil-arrow-from-right fs-8"></span><span
+                        class="navbar-vertical-footer-text ms-2">Contraer</span></button></div>
+        </nav>
+        <!--Menu horizontal-->
+        <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarCombo" data-navbar-top="combo"
+            data-move-target="#navbarVerticalNav">
+            <div class="navbar-logo">
+                <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse"
+                    aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span
+                        class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+                <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/img/icons/all-night.png" alt="phoenix" width="27" />
+                            <h5 class="logo-text ms-2 d-none d-sm-block">SchollApp</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
+                id="navbarTopCollapse">
+                <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
+
+
+                </ul>
+            </div>
+            <ul class="navbar-nav navbar-nav-icons flex-row">
+                <li class="nav-item">
+                    <div class="theme-control-toggle fa-icon-wait px-2"><input
+                            class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
+                            data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
+                            class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle"
+                            data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Switch theme"
+                            style="height:32px;width:32px;"><span class="icon" data-feather="moon"></span></label><label
+                            class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle"
+                            data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Switch theme"
+                            style="height:32px;width:32px;"><span class="icon" data-feather="sun"></span></label></div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
+                        aria-expanded="false">
+                        <div class="avatar avatar-l ">
+                            <img class="rounded-circle " src="assets/img/icons/all-night.png" alt="" />
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border"
+                        aria-labelledby="navbarDropdownUser">
+                        <div class="card position-relative border-0">
+                            <div class="card-body p-0">
+                                <div class="text-center pt-4 pb-3">
+                                    <div class="avatar avatar-xl ">
+                                        <img class="rounded-circle " src="assets/img/icons/all-night.png" alt="" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer p-0 border-top border-translucent">
+
+                                <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100"
+                                        (click)="logout()"> <span class="me-2" data-feather="log-out">
+                                        </span>Cerrar Sesión</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis pt-7 border-y">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </main><!-- ===============================================-->
+
+</div>
+<div *ngIf="!isAuthenticated">
+    <router-outlet></router-outlet>
+</div>
